@@ -10,6 +10,7 @@ namespace RedGate.GitHub.Api.GitHub
     {
         IEnumerable<GitHubRepository> GetRepositories();
         IEnumerable<GitHubUser> GetAllUsers();
+        IEnumerable<GitHubUser> GetAllUsersWithout2FA();
         
         void CreateTeam(string name);
         void CreateRepository(string name);

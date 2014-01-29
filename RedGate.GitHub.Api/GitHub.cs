@@ -35,6 +35,13 @@ namespace RedGate.GitHub.Api.GitHub
                 yield return new GitHubUser(member["login"].Value<string>());
         }
 
+        public IEnumerable<GitHubUser> GetAllUsersWithout2FA()
+        {
+            JArray members = GetJsonCollectionAuthenticated(string.Format("/orgs/{0}/members?filter=2fa_disabled", Uri.EscapeDataString(Organisation)), false);
+            foreach (var member in members)
+                yield return new GitHubUser(member["login"].Value<string>());
+        }
+
         public IEnumerable<GitHubTeam> GetTeams()
         {
             JArray teams = GetJsonCollectionAuthenticated(string.Format("/orgs/{0}/teams", Uri.EscapeDataString(Organisation)), false);
