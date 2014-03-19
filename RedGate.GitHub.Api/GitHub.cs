@@ -30,21 +30,21 @@ namespace RedGate.GitHub.Api.GitHub
 
         public IEnumerable<GitHubUser> GetAllUsers()
         {
-            JArray members = GetJsonCollectionAuthenticated(string.Format("/orgs/{0}/members", Uri.EscapeDataString(Organisation)), false);
+            JArray members = GetJsonCollectionAuthenticated(string.Format("/orgs/{0}/members", Uri.EscapeDataString(Organisation)), true);
             foreach (var member in members)
                 yield return new GitHubUser(member["login"].Value<string>());
         }
 
         public IEnumerable<GitHubUser> GetAllUsersWithout2FA()
         {
-            JArray members = GetJsonCollectionAuthenticated(string.Format("/orgs/{0}/members?filter=2fa_disabled", Uri.EscapeDataString(Organisation)), false);
+            JArray members = GetJsonCollectionAuthenticated(string.Format("/orgs/{0}/members?filter=2fa_disabled", Uri.EscapeDataString(Organisation)), true);
             foreach (var member in members)
                 yield return new GitHubUser(member["login"].Value<string>());
         }
 
         public IEnumerable<GitHubTeam> GetTeams()
         {
-            JArray teams = GetJsonCollectionAuthenticated(string.Format("/orgs/{0}/teams", Uri.EscapeDataString(Organisation)), false);
+            JArray teams = GetJsonCollectionAuthenticated(string.Format("/orgs/{0}/teams", Uri.EscapeDataString(Organisation)), true);
             foreach (var team in teams)
                 yield return new GitHubTeam(team["url"].Value<string>(), team["name"].Value<string>());
         }
@@ -81,7 +81,7 @@ namespace RedGate.GitHub.Api.GitHub
 
         public IEnumerable<GitHubUser> GetTeamMembers(GitHubTeam team)
         {
-            JArray members = GetJsonCollectionAuthenticated(team.URL + "/members", false);
+            JArray members = GetJsonCollectionAuthenticated(team.URL + "/members", true);
             foreach (var member in members)
                 yield return new GitHubUser(member["login"].Value<string>());
         }
@@ -98,7 +98,7 @@ namespace RedGate.GitHub.Api.GitHub
 
         public IEnumerable<GitHubRepository> GetTeamRepositories(GitHubTeam team)
         {
-            JArray repos = GetJsonCollectionAuthenticated(team.URL + "/repos", false);
+            JArray repos = GetJsonCollectionAuthenticated(team.URL + "/repos", true);
             foreach (var repo in repos)
                 yield return new GitHubRepository(repo["full_name"].Value<string>());
         }
