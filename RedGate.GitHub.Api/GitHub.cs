@@ -56,7 +56,7 @@ namespace RedGate.GitHub.Api.GitHub
 
         public void CreateRepository(string name)
         {
-            var createRepoModel = new CreateRepoModel { Name = name, Private = true, AutoInit = true, GitIgnoreTemplate = "CSharp" };
+            var createRepoModel = new CreateRepoModel { Name = name, Private = true, AutoInit = true, GitIgnoreTemplate = "VisualStudio" };
             var result = PushAuthenticatedJson("POST", Path.Combine("orgs", Organisation, "repos"), createRepoModel);
         }
 
