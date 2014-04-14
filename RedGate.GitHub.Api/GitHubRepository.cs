@@ -9,9 +9,11 @@ namespace RedGate.GitHub.Api.GitHub
     public sealed class GitHubRepository
     {
         public string Name { get; private set; }
+        public bool IsPrivate { get; private set; }
 
-        public GitHubRepository(string name)
+        public GitHubRepository(string name, bool isPrivate)
         {
+            IsPrivate = isPrivate;
             Name = name;
         }
 
@@ -19,5 +21,6 @@ namespace RedGate.GitHub.Api.GitHub
         {
             return Name;
         }
+
     }
 }

@@ -4,10 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using log4net;
 
 namespace RedGate.GitHub.Api.GitHub
@@ -25,7 +22,7 @@ namespace RedGate.GitHub.Api.GitHub
         {
             JArray repositories = GetJsonCollectionAuthenticated(string.Format("/orgs/{0}/repos", Uri.EscapeDataString(Organisation)), true);
             foreach (var repo in repositories)
-                yield return new GitHubRepository(repo["full_name"].Value<string>());
+                yield return new GitHubRepository(repo["full_name"].Value<string>(), repo["private"].Value<bool>());
         }
 
         public IEnumerable<GitHubUser> GetAllUsers()
@@ -54,9 +51,15 @@ namespace RedGate.GitHub.Api.GitHub
             throw new NotImplementedException();
         }
 
+        /// <summary>Creates a private repository</summary>
         public void CreateRepository(string name)
         {
-            var createRepoModel = new CreateRepoModel { Name = name, Private = true, AutoInit = true, GitIgnoreTemplate = "VisualStudio" };
+            CreateRepository(name, true);
+        }
+
+        public void CreateRepository(string name, bool isPrivate)
+        {
+            var createRepoModel = new CreateRepoModel { Name = name, Private = isPrivate, AutoInit = true, GitIgnoreTemplate = "VisualStudio" };
             var result = PushAuthenticatedJson("POST", Path.Combine("orgs", Organisation, "repos"), createRepoModel);
         }
 
@@ -100,7 +103,7 @@ namespace RedGate.GitHub.Api.GitHub
         {
             JArray repos = GetJsonCollectionAuthenticated(team.URL + "/repos", true);
             foreach (var repo in repos)
-                yield return new GitHubRepository(repo["full_name"].Value<string>());
+                yield return new GitHubRepository(repo["full_name"].Value<string>(), repo["private"].Value<bool>());
         }
 
         public void AddTeamToRepository(GitHubRepository repo, GitHubTeam team)
