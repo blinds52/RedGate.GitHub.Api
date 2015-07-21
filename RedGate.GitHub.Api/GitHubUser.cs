@@ -10,7 +10,7 @@ namespace RedGate.GitHub.Api.GitHub
     {
         public string Username { get; private set; }
 
-        internal GitHubUser(string username)
+        public GitHubUser(string username)
         {
             Username = username;
         }
