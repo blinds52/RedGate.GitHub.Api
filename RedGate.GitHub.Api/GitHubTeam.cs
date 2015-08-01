@@ -11,7 +11,7 @@ namespace RedGate.GitHub.Api.GitHub
         public string Name { get; private set; }
         public string URL { get; private set; }
 
-        internal GitHubTeam(string url, string name)
+        public GitHubTeam(string url, string name)
         {
             Name = name;
             URL = url;
